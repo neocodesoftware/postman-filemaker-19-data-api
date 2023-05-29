@@ -1,0 +1,586 @@
+{
+	"info": {
+		"_postman_id": "3c978aa7-1d1a-46c9-9b6a-0be9e1f1234c",
+		"name": "FileMaker Data API Neo Code",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22152475",
+		"_collection_link": "https://lunar-zodiac-750587.postman.co/workspace/My-Workspace~5414e672-dcaa-4773-8941-e133551a2a88/collection/22152475-3c978aa7-1d1a-46c9-9b6a-0be9e1f1234c?action=share&creator=22152475&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Metadata",
+			"item": [
+				{
+					"name": "Product info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{server}}/fmi/data/v1/productinfo",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"data",
+								"v1",
+								"productinfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Database names",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "SJWFullAccess",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "Qwerty1!",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{server}}/fmi/data/v1/databases",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"data",
+								"v1",
+								"databases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Layout names",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/layouts",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"data",
+								"v1",
+								"databases",
+								"{{database}}",
+								"layouts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Script names",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/scripts",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"data",
+								"v1",
+								"databases",
+								"{{database}}",
+								"scripts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Layout metadata",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/layouts/ValueList",
+							"protocol": "https",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"fmi",
+								"data",
+								"v1",
+								"databases",
+								"{{database}}",
+								"layouts",
+								"ValueList"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authenticate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"FMAPIToken\", jsonData.response.token)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "data",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "rest",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/sessions",
+					"protocol": "https",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"fmi",
+						"data",
+						"v1",
+						"databases",
+						"{{database}}",
+						"sessions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"recordId\", jsonData.response.recordId)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"fieldData\": {\n     \"Title\": \"Dr\",\n     \"First\" : \"Frederic\",\n     \"Last\" : \"Spoon\",\n     \"Company\" : \"FileMaker Inc\",\n     \"Job Title\" : \"Chief Cook and Bottle Wash\"\n   }\n}"
+				},
+				"url": {
+					"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/layouts/ContactsAPI/records",
+					"protocol": "https",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"fmi",
+						"data",
+						"v1",
+						"databases",
+						"{{database}}",
+						"layouts",
+						"ContactsAPI",
+						"records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get single record",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/layouts/ContactsAPI/records/{{recordId}}",
+					"protocol": "https",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"fmi",
+						"data",
+						"v1",
+						"databases",
+						"{{database}}",
+						"layouts",
+						"ContactsAPI",
+						"records",
+						"{{recordId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get multiple records",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"query\": [{\"First\": \"Fred\"}],\n\t\"sort\": [{ \"fieldName\": \"First\", \"sortOrder\": \"ascend\" }, { \"fieldName\": \"Last\", \"sortOrder\": \"ascend\" } ]\n}"
+				},
+				"url": {
+					"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/layouts/ContactsAPI/_find",
+					"protocol": "https",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"fmi",
+						"data",
+						"v1",
+						"databases",
+						"{{database}}",
+						"layouts",
+						"ContactsAPI",
+						"_find"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"query\": [{\"_CreatedBy\": \"josh\"}],\n\t\"sort\": [{ \"fieldName\": \"_CreationTimestamp\", \"sortOrder\": \"ascend\" } ]\n}"
+				},
+				"url": {
+					"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/layouts/{{layout}}/_find",
+					"protocol": "https",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"fmi",
+						"data",
+						"v1",
+						"databases",
+						"{{database}}",
+						"layouts",
+						"{{layout}}",
+						"_find"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get multiple records, limit, offset, sort",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/layouts/ContactsAPI/records",
+					"protocol": "https",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"fmi",
+						"data",
+						"v1",
+						"databases",
+						"{{database}}",
+						"layouts",
+						"ContactsAPI",
+						"records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get N records, limit, offset, sort Neo Code",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/layouts/{{layout}}/records",
+					"protocol": "https",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"fmi",
+						"data",
+						"v1",
+						"databases",
+						"{{database}}",
+						"layouts",
+						"{{layout}}",
+						"records"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get virtual list",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"query\": [\n\t\t{\"Column2\": \">0\"}\n\t],\n\t\"script.prerequest\": \"SetStates\"\n}"
+				},
+				"url": {
+					"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/layouts/VirtualList/_find",
+					"protocol": "https",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"fmi",
+						"data",
+						"v1",
+						"databases",
+						"{{database}}",
+						"layouts",
+						"VirtualList",
+						"_find"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modify record",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"fieldData\": {\n\t\t\"Office Email\": \"fred@msdev.co.uk\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/layouts/ContactsAPI/records/{{recordId}}",
+					"protocol": "https",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"fmi",
+						"data",
+						"v1",
+						"databases",
+						"{{database}}",
+						"layouts",
+						"ContactsAPI",
+						"records",
+						"{{recordId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "File upload",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "upload",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/layouts/ContactsAPI/records/{{recordId}}/containers/Photo Container/1",
+					"protocol": "https",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"fmi",
+						"data",
+						"v1",
+						"databases",
+						"{{database}}",
+						"layouts",
+						"ContactsAPI",
+						"records",
+						"{{recordId}}",
+						"containers",
+						"Photo Container",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete record",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/layouts/ContactsAPI/records/{{recordId}}",
+					"protocol": "https",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"fmi",
+						"data",
+						"v1",
+						"databases",
+						"{{database}}",
+						"layouts",
+						"ContactsAPI",
+						"records",
+						"{{recordId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{server}}/fmi/data/v1/databases/{{database}}/sessions/{{FMAPIToken}}",
+					"protocol": "https",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"fmi",
+						"data",
+						"v1",
+						"databases",
+						"{{database}}",
+						"sessions",
+						"{{FMAPIToken}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{FMAPIToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
