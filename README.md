@@ -1,3 +1,15 @@
+best thing
+
+"name": "Authenticate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"FMAPIToken\", jsonData.response.token)"
+
+
 fork of
 
 https://msdev.nz/introduction-to-the-filemaker-data-api-scandanavia-devcon/
